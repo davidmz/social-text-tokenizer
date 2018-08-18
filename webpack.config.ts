@@ -20,7 +20,7 @@ const commonConfig: Configuration = {
   },
 
   externals: {},
-  plugins: [new CleanWebpackPlugin(['dist'])],
+  plugins: [new CleanWebpackPlugin('dist', { exclude: ['.gitignore'] })],
 };
 
 const devConfig: Configuration = {
@@ -31,6 +31,7 @@ const devConfig: Configuration = {
 
 const prodConfig: Configuration = {
   ...commonConfig,
+  devtool: 'source-map',
   mode: 'production',
 };
 

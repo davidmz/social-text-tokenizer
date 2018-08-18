@@ -2,13 +2,7 @@ import withText, { TextToken } from './withText';
 import { Token } from './types';
 import byWords from './tokenizer/byWords';
 
-class WordToken extends Token {
-  name: string;
-  constructor(offset: number, text: string) {
-    super(offset, text);
-    this.name = this.constructor.name;
-  }
-}
+class WordToken extends Token {}
 
 describe('withText', () => {
   const tokenize = byWords(/a+/g, (offset, text) => new WordToken(offset, text));

@@ -1,8 +1,10 @@
 export abstract class Token {
-  offset: number;
-  text: string;
+  readonly type: string;
+  readonly offset: number;
+  readonly text: string;
 
   constructor(offset: number, text: string) {
+    this.type = this.constructor.name;
     this.offset = offset;
     this.text = text;
   }

@@ -1,15 +1,8 @@
 import combine from './combine';
 import { Token, Tokenizer } from './types';
 
-class TestToken extends Token {
-  name: string;
-  constructor(offset: number, text: string) {
-    super(offset, text);
-    this.name = this.constructor.name;
-  }
-}
-class Token1 extends TestToken {}
-class Token2 extends TestToken {}
+class Token1 extends Token {}
+class Token2 extends Token {}
 
 describe('combine', () => {
   it('should emit an empty array', () => {

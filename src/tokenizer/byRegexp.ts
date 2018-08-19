@@ -1,6 +1,6 @@
 import { Token, Tokenizer } from '../types';
 
-export type MatchProcessor = (offset: number, test: string, m: RegExpExecArray) => Token | null;
+export type MatchProcessor = (offset: number, text: string, m: RegExpExecArray) => Token | null;
 
 export default function byRegexp(regex: RegExp, processMatch: MatchProcessor): Tokenizer {
   if (!regex.global) {

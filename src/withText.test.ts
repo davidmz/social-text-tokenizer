@@ -1,20 +1,20 @@
-import withText, { TextToken } from './withText';
+import withText, { Text } from './withText';
 import { Token } from './types';
 import byWords from './tokenizer/byWords';
 
-class WordToken extends Token {}
+class Word extends Token {}
 
 describe('withText', () => {
-  const tokenize = byWords(/a+/g, (offset, text) => new WordToken(offset, text));
+  const tokenize = byWords(/a+/g, (offset, text) => new Word(offset, text));
   const parse = withText(tokenize);
 
   it('should return text tokens between words', () => {
     expect(parse(' aa,bb aaa!?')).toEqual([
-      new TextToken(0, ' '),
-      new WordToken(1, 'aa'),
-      new TextToken(3, ',bb '),
-      new WordToken(7, 'aaa'),
-      new TextToken(10, '!?'),
+      new Text(0, ' '),
+      new Word(1, 'aa'),
+      new Text(3, ',bb '),
+      new Word(7, 'aaa'),
+      new Text(10, '!?'),
     ]);
   });
 });

@@ -4,6 +4,11 @@ import { Tokenizer, Token } from './types';
  * combine combines multiple tokenizer into one
  */
 export default function combine(...tokenizers: Tokenizer[]): Tokenizer {
+  if (tokenizers.length === 0) {
+    return () => [];
+  } else if (tokenizers.length === 1) {
+    return tokenizers[0];
+  }
   return function(text: string): Token[] {
     const allFounds = tokenizers.map((f) => f(text));
     let position = 0;

@@ -1,4 +1,4 @@
-export class Range {
+class Range {
   readonly start: number;
   readonly end: number;
 

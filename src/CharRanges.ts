@@ -83,44 +83,40 @@ export default class CharRanges {
   }
 
   private removeRange(rem: Range) {
-    this.ranges = this.ranges.reduce(
-      (result, r) => {
-        if (rem.start <= r.start && rem.end >= r.end) {
-          // noop
-        } else if (rem.start > r.end || rem.end < r.start) {
-          result.push(r);
-        } else if (rem.start > r.start && rem.end >= r.end) {
-          result.push(new Range(r.start, rem.start - 1));
-        } else if (rem.start <= r.start && rem.end < r.end) {
-          result.push(new Range(rem.end + 1, r.end));
-        } else if (rem.start > r.start && rem.end < r.end) {
-          result.push(new Range(r.start, rem.start - 1), new Range(rem.end + 1, r.end));
-        }
-        return result;
-      },
-      [] as Range[]
-    );
+    const result: Range[] = [];
+    for (const r of this.ranges) {
+      if (rem.start <= r.start && rem.end >= r.end) {
+        // noop
+      } else if (rem.start > r.end || rem.end < r.start) {
+        result.push(r);
+      } else if (rem.start > r.start && rem.end >= r.end) {
+        result.push(new Range(r.start, rem.start - 1));
+      } else if (rem.start <= r.start && rem.end < r.end) {
+        result.push(new Range(rem.end + 1, r.end));
+      } else if (rem.start > r.start && rem.end < r.end) {
+        result.push(new Range(r.start, rem.start - 1), new Range(rem.end + 1, r.end));
+      }
+    }
+    this.ranges = result;
   }
 
   private compact() {
-    this.ranges = this.ranges
-      .sort((a, b) => a.start - b.start) // Sort by start
-      .reduce(
-        (result, curr, i) => {
-          if (i === 0) {
-            result.push(curr);
-          } else {
-            const prev = result[result.length - 1];
-            if (curr.start <= prev.end + 1 && curr.end > prev.end) {
-              result[result.length - 1] = new Range(prev.start, curr.end);
-            } else if (curr.start > prev.end) {
-              result.push(curr);
-            }
-          }
-          return result;
-        },
-        [] as Range[]
-      );
+    const result: Range[] = [];
+    const sortedRanges = this.ranges.sort((a, b) => a.start - b.start); // Sort by start
+    for (const curr of sortedRanges) {
+      if (result.length === 0) {
+        result.push(curr);
+        continue;
+      }
+      const prev = result[result.length - 1];
+      if (curr.start <= prev.end + 1 && curr.end > prev.end) {
+        result.pop();
+        result.push(new Range(prev.start, curr.end));
+      } else if (curr.start > prev.end) {
+        result.push(curr);
+      }
+    }
+    this.ranges = result;
   }
 }
 

@@ -6,7 +6,8 @@
     "lib": ["es5", "es6", "es7"],
 
     "moduleResolution": "node",
-    "module": "esnext",
+    "module": "commonjs",
+    "declaration": true,
     "importHelpers": true,
 
     "strict": true,
@@ -15,5 +16,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "exclude": ["./src/**/*.test.ts"]
 }

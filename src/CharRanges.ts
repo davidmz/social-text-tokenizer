@@ -1,123 +1,98 @@
-class Range {
-  readonly start: number;
-  readonly end: number;
+type Range = [number, number];
 
-  constructor(start: number, end: number = start) {
-    if (start <= end) {
-      [this.start, this.end] = [start, end];
-    } else {
-      [this.start, this.end] = [end, start];
-    }
-  }
-
-  toTuple(): [number, number] {
-    return [this.start, this.end];
-  }
-
-  toString(): string {
-    if (this.start === this.end) {
-      return uHex(this.start);
-    }
-    return `${uHex(this.start)}-${uHex(this.end)}`;
-  }
+function range(start: number, end: number = start): Range {
+  return start <= end ? [start, end] : [end, start];
 }
 
 export default class CharRanges {
   ranges: Range[] = [];
 
-  add(...tuples: ([number, number] | number)[]) {
-    for (const t of tuples) {
-      if (typeof t === 'number') {
-        this.addRange(new Range(t));
-      } else {
-        this.addRange(new Range(t[0], t[1]));
-      }
-    }
-    return this;
-  }
-
-  remove(...tuples: ([number, number] | number)[]) {
-    for (const t of tuples) {
-      if (typeof t === 'number') {
-        this.removeRange(new Range(t));
-      } else {
-        this.removeRange(new Range(t[0], t[1]));
-      }
-    }
+  add(...tuples: ([number, number] | number)[]): this {
+    const ranges = tuples.map((t) => (typeof t === 'number' ? range(t) : range(t[0], t[1])));
+    this.ranges = [...this.ranges, ...ranges];
+    this.normalize();
     return this;
   }
 
   addChars(chars: string): this {
-    for (let i = 0; i < chars.length; i++) {
-      this.add(chars.charCodeAt(i));
-    }
+    const charCodes = chars.split('').map((c) => c.charCodeAt(0));
+    this.add(...charCodes);
+    return this;
+  }
+
+  remove(...tuples: ([number, number] | number)[]): this {
+    const ranges = tuples.map((t) => (typeof t === 'number' ? range(t) : range(t[0], t[1])));
+    this.ranges = diff(this.ranges, normalize(ranges));
     return this;
   }
 
   removeChars(chars: string): this {
-    for (let i = 0; i < chars.length; i++) {
-      this.remove(chars.charCodeAt(i));
-    }
+    const charCodes = chars.split('').map((c) => c.charCodeAt(0));
+    this.remove(...charCodes);
     return this;
   }
 
   toString(): string {
-    return this.ranges.map((r) => r.toString()).join('');
-  }
-
-  toTuples() {
-    return this.ranges.map((r) => r.toTuple());
+    return this.ranges
+      .map(([start, end]) => (start === end ? uHex(start) : `${uHex(start)}-${uHex(end)}`))
+      .join('');
   }
 
   clone(): CharRanges {
     const clone = new CharRanges();
-    clone.ranges = [...this.ranges];
+    clone.ranges = this.ranges.slice();
     return clone;
   }
 
-  ////////////////////
-
-  private addRange(r: Range) {
-    this.ranges.push(r);
-    this.compact();
+  private normalize() {
+    this.ranges = normalize(this.ranges);
   }
+}
 
-  private removeRange(rem: Range) {
-    const result: Range[] = [];
-    for (const r of this.ranges) {
-      if (rem.start <= r.start && rem.end >= r.end) {
-        // noop
-      } else if (rem.start > r.end || rem.end < r.start) {
-        result.push(r);
-      } else if (rem.start > r.start && rem.end >= r.end) {
-        result.push(new Range(r.start, rem.start - 1));
-      } else if (rem.start <= r.start && rem.end < r.end) {
-        result.push(new Range(rem.end + 1, r.end));
-      } else if (rem.start > r.start && rem.end < r.end) {
-        result.push(new Range(r.start, rem.start - 1), new Range(rem.end + 1, r.end));
-      }
+function normalize(ranges: Range[]): Range[] {
+  const sorted = ranges.slice().sort((a, b) => a[0] - b[0]); // Sort by start
+  const result: Range[] = [];
+  for (const curr of sorted) {
+    if (result.length === 0) {
+      result.push(curr);
+      continue;
     }
-    this.ranges = result;
-  }
-
-  private compact() {
-    const result: Range[] = [];
-    const sortedRanges = this.ranges.sort((a, b) => a.start - b.start); // Sort by start
-    for (const curr of sortedRanges) {
-      if (result.length === 0) {
-        result.push(curr);
-        continue;
-      }
-      const prev = result[result.length - 1];
-      if (curr.start <= prev.end + 1 && curr.end > prev.end) {
-        result.pop();
-        result.push(new Range(prev.start, curr.end));
-      } else if (curr.start > prev.end) {
-        result.push(curr);
-      }
+    const prev = result[result.length - 1];
+    if (curr[0] <= prev[1] + 1 && curr[1] > prev[1]) {
+      result.pop();
+      result.push([prev[0], curr[1]]);
+    } else if (curr[0] > prev[1]) {
+      result.push(curr);
     }
-    this.ranges = result;
   }
+  return result;
+}
+
+/**
+ * Subsctract one ranges set from another.
+ *
+ * @param r1 ranges to subscract from (MUST be normalized)
+ * @param r2 ranges to subscract (MUST be normalized)
+ */
+function diff(r1: Range[], r2: Range[]): Range[] {
+  if (r1.length === 0 || r2.length === 0) {
+    return r1.slice();
+  }
+  const result: Range[] = [];
+  for (const src of r1) {
+    const toSub = r2.filter((r) => r[0] <= src[1] && r[1] >= src[0]);
+    let pos = src[0];
+    for (const sub of toSub) {
+      if (sub[0] - 1 >= pos) {
+        result.push([pos, sub[0] - 1]);
+      }
+      pos = sub[1] + 1;
+    }
+    if (pos <= src[1]) {
+      result.push([pos, src[1]]);
+    }
+  }
+  return normalize(result);
 }
 
 function uHex(n: number): string {

@@ -5,9 +5,8 @@
   "types": "dist/index.d.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "del-cli dist/* !dist/.gitignore",
-    "build": "tsc",
-    "prepack": "yarpm build",
+    "prepack": "del-cli dist && tsc",
+    "postpack": "del-cli dist",
     "test": "jest"
   },
   "devDependencies": {

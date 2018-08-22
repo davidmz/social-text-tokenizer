@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outDir": "./build/cjs/",
     "sourceMap": true,
     "target": "es5",
     "lib": ["es5", "es6", "es7"],
 
     "moduleResolution": "node",
     "module": "commonjs",
-    "declaration": true,
+    "declaration": false,
     "importHelpers": true,
 
     "strict": true,
@@ -17,5 +17,5 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["./src/**/*"],
-  "exclude": ["./src/**/*.test.ts"]
+  "exclude": ["./src/**/*.test.ts", "./src/**/*.test"]
 }

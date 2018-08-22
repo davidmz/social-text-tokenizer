@@ -20,3 +20,7 @@ export default function byRegexp(regex: RegExp, processMatch: MatchProcessor): T
     return founds;
   };
 }
+
+export function makeToken(Constr: new (offset: number, text: string) => Token): MatchProcessor {
+  return (offset: number, text: string) => new Constr(offset, text);
+}

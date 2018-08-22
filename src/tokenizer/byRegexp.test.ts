@@ -1,11 +1,11 @@
-import byRegexp from './byRegexp';
+import byRegexp, { makeToken } from './byRegexp';
 import { Token } from '../types';
 
 class TestToken extends Token {}
 
 describe('byRegexp', () => {
   it('should tokenize by regexp', () => {
-    const tokenizer = byRegexp(/a+/g, (offset, text) => new TestToken(offset, text));
+    const tokenizer = byRegexp(/a+/g, makeToken(TestToken));
     expect(tokenizer('abcaabcda')).toEqual([
       new TestToken(0, 'a'),
       new TestToken(3, 'aa'),
@@ -25,7 +25,7 @@ describe('byRegexp', () => {
 
   it('should not accept non-global regexp', () => {
     expect(() => {
-      byRegexp(/a+/, (offset, text) => new TestToken(offset, text));
+      byRegexp(/a+/, makeToken(TestToken));
     }).toThrow('RegExp must have a global flag!');
   });
 });

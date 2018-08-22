@@ -1,6 +1,7 @@
 import CharRanges from '../CharRanges';
 import { Token } from '../types';
 import byWords from './byWords';
+import { makeToken } from './byRegexp';
 
 const invalidChars = new CharRanges().add(
   [0x0000, 0x0020],
@@ -20,4 +21,4 @@ const re = new RegExp(`#([^${invalidChars}]+(?:[_-][^${invalidChars}]+)*)`, 'g')
 
 export class HashTag extends Token {}
 
-export const tokenize = byWords(re, (offset, text) => new HashTag(offset, text));
+export const tokenize = byWords(re, makeToken(HashTag));

@@ -1,11 +1,12 @@
 import withText, { Text } from './withText';
 import { Token } from './types';
 import byWords from './tokenizer/byWords';
+import { makeToken } from './tokenizer/byRegexp';
 
 class Word extends Token {}
 
 describe('withText', () => {
-  const tokenize = byWords(/a+/g, (offset, text) => new Word(offset, text));
+  const tokenize = byWords(/a+/g, makeToken(Word));
   const parse = withText(tokenize);
 
   it('should return text tokens between words', () => {

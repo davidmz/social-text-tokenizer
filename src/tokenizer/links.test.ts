@@ -21,6 +21,8 @@ tableTest('links', tokenize, [
   ['example.net', [new Link(0, 'example.net')]],
   ['moscow.info', []],
   ['www.moscow.info', [new Link(0, 'www.moscow.info')]],
+  ['microsoft.com…', [new Link(0, 'microsoft.com')]],
+  ['I should go to lurkmore.to!', [new Link(15, 'lurkmore.to')]],
 
   ['example.ru:2423/aaa!!', [new Link(0, 'example.ru:2423/aaa')]],
   ['пластиковые-окна.рф:2423/aaa!!', [new Link(0, 'пластиковые-окна.рф:2423/aaa')]],

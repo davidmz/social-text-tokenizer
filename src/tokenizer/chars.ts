@@ -13,7 +13,8 @@ export const spacesAndPunctuation = new CharRanges().add(
   [0x2028, 0x2029], // Space symbols
   0x202f, // Space symbols
   0x205f, // Space symbols
-  0x3000 // Space symbols
+  0x3000, // Space symbols
+  0x2026 // HORIZONTAL ELLIPSIS
 );
 
 export const wordAdjacentChars = spacesAndPunctuation.clone().removeChars('#@-_');

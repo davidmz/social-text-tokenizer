@@ -1,7 +1,7 @@
 import withText, { Text } from './withText';
-import { Token } from './types';
-import byWords from './tokenizer/byWords';
-import { makeToken } from './tokenizer/byRegexp';
+import { Token } from '../types';
+import byWords from './byWords';
+import { makeToken } from './byRegexp';
 
 class Word extends Token {}
 

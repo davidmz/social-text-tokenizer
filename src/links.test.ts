@@ -1,5 +1,5 @@
 import { tokenize, Link } from './links';
-import { tableTest } from './test-helpers';
+import { tableTest } from './lib/test-helpers';
 
 tableTest('links', tokenize, [
   ['http://www.example.com', [new Link(0, 'http://www.example.com')]],
@@ -86,6 +86,18 @@ describe('Link class', () => {
           'https://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0'
         ).pretty
       ).toBe('ru.wikipedia.org/wiki/Заглавная_страница');
+    });
+  });
+
+  describe('shorten', () => {
+    it('should not shorten short url', () => {
+      expect(new Link(0, 'example.com/abc').shorten(20)).toBe('example.com/abc');
+    });
+    it('should shorten url to host', () => {
+      expect(new Link(0, 'example.com/abc').shorten(6)).toBe('example.com/\u2026');
+    });
+    it('should shorten url to part of path', () => {
+      expect(new Link(0, 'example.com/abc/def').shorten(17)).toBe('example.com/abc/\u2026');
     });
   });
 });

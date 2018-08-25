@@ -1,12 +1,12 @@
 import { toUnicode } from 'punycode';
 
-import { Token, Tokenizer } from '../types';
-import CharRanges from '../CharRanges';
-import { wordAdjacentChars } from './chars';
-import byRegexp from './byRegexp';
-import combine from '../combine';
+import { Token, Tokenizer, Prettifier } from './types';
+import CharRanges from './lib/CharRanges';
+import { wordAdjacentChars } from './lib/chars';
+import byRegexp from './lib/byRegexp';
+import combine from './lib/combine';
 
-export class Link extends Token {
+export class Link extends Token implements Prettifier {
   get href(): string {
     let href = this.text;
     if (!/^(https?|ftp):\/\//i.test(this.text)) {
@@ -33,6 +33,39 @@ export class Link extends Token {
     }
 
     return pretty;
+  }
+
+  /**
+   * Shorten pretty-form of URL
+   * @param limit maximum length of result
+   */
+  shorten(limit: number): string {
+    let m;
+    m = /^([^\/]+)(.+)/i.exec(this.pretty);
+    if (!m) {
+      return this.pretty;
+    }
+    const [host, tail] = [m[1], m[2]];
+
+    const parts = [];
+    const re = /[\/?&#_-]/g;
+    let prevPos = -1;
+    while ((m = re.exec(tail)) !== null) {
+      parts.push(tail.substring(prevPos + 1, m.index + 1));
+      prevPos = m.index;
+    }
+    if (prevPos < tail.length - 1) {
+      parts.push(tail.substring(prevPos + 1));
+    }
+
+    let s = host;
+    for (const part of parts) {
+      if ((s + part).length > limit - 1) {
+        return s == host ? s + '/\u2026' : s + '\u2026';
+      }
+      s += part;
+    }
+    return s;
   }
 }
 

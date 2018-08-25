@@ -1,5 +1,5 @@
-import byRegexp from './byRegexp';
-import { Token } from '../types';
+import byRegexp from './lib/byRegexp';
+import { Token } from './types';
 
 export class Arrows extends Token {}
 

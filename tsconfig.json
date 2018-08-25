@@ -17,5 +17,5 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["./src/**/*"],
-  "exclude": ["./src/**/*.test.ts", "./src/**/*.test"]
+  "exclude": ["./src/**/*.test.ts", "./src/legacy-tests"]
 }

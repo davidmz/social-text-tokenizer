@@ -1,4 +1,4 @@
-import { Tokenizer, Token } from './types';
+import { Tokenizer, Token } from '../types';
 
 /**
  * The simplest token represented plain text

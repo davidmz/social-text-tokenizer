@@ -1,5 +1,5 @@
 import { tokenize, HashTag } from './hashtags';
-import { tableTest } from './test-helpers';
+import { tableTest } from './lib/test-helpers';
 
 tableTest('hashtags', tokenize, [
   ['#hashtag', [new HashTag(0, '#hashtag')]],

@@ -13,3 +13,7 @@ export abstract class Token {
 export interface Tokenizer {
   (text: string): Token[];
 }
+
+export interface Prettifier {
+  pretty: string;
+}

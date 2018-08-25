@@ -1,4 +1,4 @@
-import CharRanges from '../CharRanges';
+import CharRanges from '../lib/CharRanges';
 
 export const spacesAndPunctuation = new CharRanges().add(
   [0, 0x1f], // C0 controls

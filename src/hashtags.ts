@@ -1,7 +1,7 @@
-import CharRanges from '../CharRanges';
-import { Token } from '../types';
-import byWords from './byWords';
-import { makeToken } from './byRegexp';
+import CharRanges from './lib/CharRanges';
+import { Token } from './types';
+import byWords from './lib/byWords';
+import { makeToken } from './lib/byRegexp';
 
 const invalidChars = new CharRanges().add(
   [0x0000, 0x0020],

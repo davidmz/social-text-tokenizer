@@ -1,9 +1,11 @@
-import createTokenizer, { hashTags, emails, mentions, links, arrows, Email, Link } from '..';
+import { hashTags, emails, mentions, links, arrows } from '..';
 import { testData, TestEntryResult, EnrtyType } from './legacy.data';
-import { Token } from '../types';
+import { Token, Prettifier } from '../types';
+import withText from '../lib/withText';
+import combine from '../lib/combine';
 
 describe('Legacy data set', () => {
-  const tokenize = createTokenizer(hashTags, emails, mentions, links, arrows);
+  const tokenize = withText(combine(hashTags, emails, mentions, links, arrows));
   testData.map(({ text, result }) =>
     it(`should parse "${text}"`, () => expect(legacify(tokenize(text))).toEqual(unlegacify(result)))
   );
@@ -23,10 +25,10 @@ type LegacyResult = {
   text: string;
 };
 
-function legacify(ts: Token[]): LegacyResult[] {
+function legacify(ts: (Token | (Token & Prettifier))[]): LegacyResult[] {
   return ts.map((t) => {
     const type = legacyTypes[t.type] as EnrtyType;
-    const text = t instanceof Email || t instanceof Link ? t.pretty : t.text;
+    const text = 'pretty' in t ? t.pretty : t.text;
     return { type, text } as LegacyResult;
   });
 }

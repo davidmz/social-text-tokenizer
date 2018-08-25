@@ -1,5 +1,5 @@
 import { tokenize, Mention } from './mentions';
-import { tableTest } from './test-helpers';
+import { tableTest } from './lib/test-helpers';
 
 tableTest('emails', tokenize, [
   [' @alice @bob-by ', [new Mention(1, '@alice'), new Mention(8, '@bob-by')]],

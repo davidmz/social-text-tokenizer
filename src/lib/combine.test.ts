@@ -1,5 +1,5 @@
 import combine from './combine';
-import { Token, Tokenizer } from './types';
+import { Token, Tokenizer } from '../types';
 
 class Token1 extends Token {}
 class Token2 extends Token {}

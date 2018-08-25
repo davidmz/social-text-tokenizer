@@ -1,5 +1,5 @@
 import { tokenize, Email } from './emails';
-import { tableTest } from './test-helpers';
+import { tableTest } from './lib/test-helpers';
 
 tableTest('emails', tokenize, [
   [

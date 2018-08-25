@@ -1,6 +1,6 @@
-import { Token } from '../types';
-import byWords from './byWords';
-import { makeToken } from './byRegexp';
+import { Token } from './types';
+import byWords from './lib/byWords';
+import { makeToken } from './lib/byRegexp';
 
 const re = /@([a-z0-9]+(?:-[a-z0-9]+)*)/g;
 

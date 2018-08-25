@@ -1,4 +1,4 @@
-import { Tokenizer, Token } from './types';
+import { Tokenizer, Token } from '../types';
 
 /**
  * combine combines multiple tokenizer into one

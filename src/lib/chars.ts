@@ -8,6 +8,8 @@ export const spacesAndPunctuation = new CharRanges().add(
   [0x7b, 0x7e], // ASCII punctuation
   [0x80, 0x9f], // C1 controls
   [0xa0, 0xbf], // Latin-1 punctuation and symbols
+  [0x2010, 0x2027], // General punctuation
+  [0x2030, 0x205e], // General punctuation
   0x1680, // Space symbols
   [0x2000, 0x200a], // Space symbols
   [0x2028, 0x2029], // Space symbols

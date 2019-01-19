@@ -8,4 +8,5 @@ tableTest('emails', tokenize, [
   ['@aliceмиелофон', []],
   ['«@alice»', [new Mention(1, '@alice')]],
   ['@alice,@bob!', [new Mention(0, '@alice'), new Mention(7, '@bob')]],
+  ["@alice's @alice’s", [new Mention(0, '@alice'), new Mention(9, '@alice')]],
 ]);

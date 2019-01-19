@@ -11,7 +11,7 @@ describe('Legacy data set', () => {
   );
 });
 
-const legacyTypes = {
+const legacyTypes: { [key: string]: EnrtyType } = {
   Text: 'text',
   Link: 'link',
   Email: 'email',
@@ -27,7 +27,7 @@ type LegacyResult = {
 
 function legacify(ts: (Token | (Token & Prettifier))[]): LegacyResult[] {
   return ts.map((t) => {
-    const type = legacyTypes[t.type] as EnrtyType;
+    const type = legacyTypes[t.type];
     const text = 'pretty' in t ? t.pretty : t.text;
     return { type, text } as LegacyResult;
   });

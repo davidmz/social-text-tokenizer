@@ -1,4 +1,5 @@
 import { toUnicode } from 'punycode';
+import escapeRegExp from 'lodash.escaperegexp';
 
 import { Token, Tokenizer, Prettifier } from './types';
 import CharRanges from './lib/CharRanges';
@@ -69,13 +70,22 @@ export class Link extends Token implements Prettifier {
   }
 }
 
-export const tokenize = combine(
-  makeTokenizer(/(https?|ftp):\/\/[^\s<>]+/gi), // url with schema
-  makeTokenizer(/www\.[^\s<>]+/gi), // started by www.
-  makeTokenizer(
-    /(?:[a-zа-я0-9][a-zа-я0-9-]*\.)+(?:xn--[a-z0-9]+|рф|com|net|org|edu|[a-z]{2})(?::\d+)?(?:\/[^\s<>]*)?/gi
-  ) // url-like pattern
-);
+export function tokenizeEx({ tldList }: { tldList: string[] }) {
+  let tldsRe = tldList.map(escapeRegExp).join('|') + (tldList.length > 0 ? '|' : '');
+
+  return combine(
+    makeTokenizer(/(https?|ftp):\/\/[^\s<>]+/gi), // url with schema
+    makeTokenizer(/www\.[^\s<>]+/gi), // started by www.
+    makeTokenizer(
+      new RegExp(
+        `(?:[a-zа-я0-9][a-zа-я0-9-]*\\.)+(?:xn--[a-z0-9]+|${tldsRe}[a-z]{2})(?::\\d+)?(?:/[^\\s<>]*)?`,
+        'gi'
+      )
+    ) // url-like pattern
+  );
+}
+
+export const tokenize = tokenizeEx({ tldList: ['рф', 'com', 'net', 'org', 'edu'] });
 
 // Base latin punctuation except '/', '-', '+', '#' and '&' include ellipsis and quotes
 const finalPuncts = new CharRanges()

@@ -1,6 +1,6 @@
 {
   "name": "social-text-tokenizer",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Posts/comments text parser for FreeFeed.net",
   "homepage": "https://github.com/davidmz/social-text-tokenizer",
   "author": "David Mzareulyan <david@hiero.ru> (https://github.com/davidmz)",
@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",
+    "@types/lodash.escaperegexp": "^4.1.6",
     "@types/node": "^11.13.4",
     "del-cli": "^1.1.0",
     "jest": "^24.7.1",
@@ -24,6 +25,7 @@
     "typescript": "^3.4.3"
   },
   "dependencies": {
+    "lodash.escaperegexp": "^4.1.2",
     "punycode": "^2.1.1",
     "tslib": "^1.9.3"
   }

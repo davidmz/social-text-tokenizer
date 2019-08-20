@@ -9,9 +9,10 @@
   "module": "build/esm/index.js",
   "types": "build/esm/index.d.ts",
   "scripts": {
-    "prepack": "jest && del-cli *.tgz build && tsc && tsc -p ./tsconfig.esm.json",
-    "postpack": "del-cli build",
-    "test": "jest"
+    "clean": "del-cli build/cjs build/esm",
+    "build": "tsc && tsc -p ./tsconfig.esm.json",
+    "test": "jest",
+    "prepack": "run-s clean test build"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
@@ -19,6 +20,7 @@
     "@types/node": "^12.7.2",
     "del-cli": "^2.0.0",
     "jest": "^24.9.0",
+    "npm-run-all": "~4.1.5",
     "prettier": "1.18.2",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",

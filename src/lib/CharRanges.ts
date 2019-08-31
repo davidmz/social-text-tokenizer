@@ -1,34 +1,48 @@
+export type TupleArg = number | [number, number];
+export type SomeTuples = [TupleArg, ...TupleArg[]];
 type Range = [number, number];
 
-function range(start: number, end: number = start): Range {
-  return start <= end ? [start, end] : [end, start];
+function range(t: TupleArg): Range {
+  if (typeof t === 'number') {
+    return [t, t];
+  }
+  return t[0] <= t[1] ? [t[0], t[1]] : [t[1], t[0]];
 }
 
 export default class CharRanges {
   ranges: Range[] = [];
 
-  add(...tuples: ([number, number] | number)[]): this {
-    const ranges = tuples.map((t) => (typeof t === 'number' ? range(t) : range(t[0], t[1])));
-    this.ranges = [...this.ranges, ...ranges];
+  constructor(...tuples: TupleArg[]) {
+    if (tuples.length > 0) {
+      // See https://github.com/microsoft/TypeScript/issues/4130
+      this.add(...(tuples as SomeTuples));
+    }
+  }
+
+  add(...tuples: SomeTuples): this {
+    this.ranges = [...this.ranges, ...tuples.map(range)];
     this.normalize();
     return this;
   }
 
   addChars(chars: string): this {
-    const charCodes = chars.split('').map((c) => c.charCodeAt(0));
-    this.add(...charCodes);
+    if (chars.length > 0) {
+      const charCodes = chars.split('').map((c) => c.charCodeAt(0)) as SomeTuples;
+      this.add(...charCodes);
+    }
     return this;
   }
 
-  remove(...tuples: ([number, number] | number)[]): this {
-    const ranges = tuples.map((t) => (typeof t === 'number' ? range(t) : range(t[0], t[1])));
-    this.ranges = diff(this.ranges, normalize(ranges));
+  remove(...tuples: SomeTuples): this {
+    this.ranges = diff(this.ranges, normalize(tuples.map(range)));
     return this;
   }
 
   removeChars(chars: string): this {
-    const charCodes = chars.split('').map((c) => c.charCodeAt(0));
-    this.remove(...charCodes);
+    if (chars.length > 0) {
+      const charCodes = chars.split('').map((c) => c.charCodeAt(0)) as SomeTuples;
+      this.remove(...charCodes);
+    }
     return this;
   }
 

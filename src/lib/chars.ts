@@ -1,6 +1,6 @@
 import CharRanges from '../lib/CharRanges';
 
-export const spacesAndPunctuation = new CharRanges().add(
+export const spacesAndPunctuation = new CharRanges(
   [0, 0x1f], // C0 controls
   [0x20, 0x2f], // ASCII punctuation
   [0x3a, 0x40], // ASCII punctuation

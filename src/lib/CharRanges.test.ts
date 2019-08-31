@@ -5,6 +5,11 @@ describe('CharRanges', () => {
   beforeEach(() => (cr = new CharRanges()));
 
   describe('add', () => {
+    it('should add range duroing initialization', () => {
+      const cr = new CharRanges([1, 2]);
+      expect(cr.ranges).toEqual([[1, 2]]);
+    });
+
     it('should add range', () => {
       cr.add([1, 2]);
       expect(cr.ranges).toEqual([[1, 2]]);
@@ -52,6 +57,13 @@ describe('CharRanges', () => {
       cr.add([7, 10]);
       cr.add([4, 7]);
       expect(cr.ranges).toEqual([[1, 10]]);
+    });
+  });
+
+  describe('addChars', () => {
+    it('should add chars from string', () => {
+      cr.addChars('123');
+      expect(cr.ranges).toEqual([[49, 51]]);
     });
   });
 

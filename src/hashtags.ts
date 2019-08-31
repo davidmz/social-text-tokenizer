@@ -3,7 +3,7 @@ import { Token } from './types';
 import byWords from './lib/byWords';
 import { makeToken } from './lib/byRegexp';
 
-const invalidChars = new CharRanges().add(
+const invalidChars = new CharRanges(
   [0x0000, 0x0020],
   0x007f,
   [0x0080, 0x00a0],

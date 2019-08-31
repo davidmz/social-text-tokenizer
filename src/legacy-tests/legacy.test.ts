@@ -5,7 +5,7 @@ import withText from '../lib/withText';
 import combine from '../lib/combine';
 
 describe('Legacy data set', () => {
-  const tokenize = withText(combine(hashTags, emails, mentions, links, arrows));
+  const tokenize = withText(combine(hashTags(), emails(), mentions(), links(), arrows()));
   testData.map(({ text, result }) =>
     it(`should parse "${text}"`, () => expect(legacify(tokenize(text))).toEqual(unlegacify(result)))
   );

@@ -7,5 +7,5 @@ export { Text } from './lib/withText';
 export { HashTag, tokenize as hashTags } from './hashtags';
 export { Email, tokenize as emails } from './emails';
 export { Mention, tokenize as mentions } from './mentions';
-export { Link, tokenize as links, tokenizeEx as linksEx } from './links';
+export { Link, tokenize as links } from './links';
 export { Arrows, tokenize as arrows } from './arrows';

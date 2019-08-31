@@ -1,7 +1,7 @@
 import { tokenize, Email } from './emails';
 import { tableTest } from './lib/test-helpers';
 
-tableTest('emails', tokenize, [
+tableTest('emails', tokenize(), [
   [
     'aa@bb.ru bb@xn--80aaazglcmlcj.xn--p1ai',
     [new Email(0, 'aa@bb.ru'), new Email(9, 'bb@xn--80aaazglcmlcj.xn--p1ai')],
@@ -9,6 +9,7 @@ tableTest('emails', tokenize, [
   ['john+smith@gmail.com', [new Email(0, 'john+smith@gmail.com')]],
   ['freefeed.net@gmail.com', [new Email(0, 'freefeed.net@gmail.com')]],
   ['супер@окна.рф!!!', [new Email(0, 'супер@окна.рф')]],
+  ['СУПЕР@окна.рф!!!', [new Email(0, 'СУПЕР@окна.рф')]],
 ]);
 
 describe('Email class', () => {

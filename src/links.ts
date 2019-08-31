@@ -70,7 +70,9 @@ export class Link extends Token implements Prettifier {
   }
 }
 
-export function tokenizeEx({ tldList }: { tldList: string[] }) {
+export const defaultTLDList = ['рф', 'com', 'net', 'org', 'edu'];
+
+export function tokenize({ tldList } = { tldList: defaultTLDList }) {
   let tldsRe = tldList.map(escapeRegExp).join('|') + (tldList.length > 0 ? '|' : '');
 
   return combine(
@@ -84,8 +86,6 @@ export function tokenizeEx({ tldList }: { tldList: string[] }) {
     ) // url-like pattern
   );
 }
-
-export const tokenize = tokenizeEx({ tldList: ['рф', 'com', 'net', 'org', 'edu'] });
 
 // Base latin punctuation except '/', '-', '+', '#' and '&' include ellipsis and quotes
 const finalPuncts = new CharRanges(

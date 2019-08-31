@@ -3,9 +3,8 @@ import { Token } from './types';
 
 export class Arrows extends Token {}
 
-export const tokenize = byRegexp(
-  /\u2191+|\^+/g,
-  (offset: number, text: string, match: RegExpExecArray): Token | null => {
+export const tokenize = (re = /\u2191+|\^+/g) =>
+  byRegexp(re, (offset: number, text: string, match: RegExpExecArray): Token | null => {
     if (
       text.charAt(0) === '\u2191' ||
       text.length > 1 ||
@@ -25,5 +24,4 @@ export const tokenize = byRegexp(
     const re = /[\s,.]/;
 
     return re.test(prevChar) || re.test(nextChar) ? new Arrows(offset, text) : null;
-  }
-);
+  });

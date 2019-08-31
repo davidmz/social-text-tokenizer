@@ -17,8 +17,8 @@ const invalidChars = new CharRanges(
   [0x2000, 0x206f]
 );
 
-const re = new RegExp(`#([^${invalidChars}]+(?:[_-][^${invalidChars}]+)*)`, 'g');
+const defaultRe = new RegExp(`#([^${invalidChars}]+(?:[_-][^${invalidChars}]+)*)`, 'g');
 
 export class HashTag extends Token {}
 
-export const tokenize = byWords(re, makeToken(HashTag));
+export const tokenize = (re = defaultRe) => byWords(re, makeToken(HashTag));

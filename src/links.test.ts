@@ -1,7 +1,7 @@
 import { tokenize, Link } from './links';
 import { tableTest } from './lib/test-helpers';
 
-tableTest('links', tokenize, [
+tableTest('links', tokenize(), [
   ['http://www.example.com', [new Link(0, 'http://www.example.com')]],
   ['abchttp://example.com', []],
   ['https://example.com', [new Link(0, 'https://example.com')]],

@@ -87,7 +87,7 @@ export function tokenize({ tldList } = { tldList: defaultTLDList }) {
   );
 }
 
-// Base latin punctuation except '/', '-', '+', '#' and '&' include ellipsis and quotes
+// Base latin punctuation except '/', '-', '_', '+', '#' and '&' include ellipsis and quotes
 const finalPuncts = new CharRanges(
   [0x20, 0x2f], // ASCII punctuation
   [0x3a, 0x40], // ASCII punctuation
@@ -96,7 +96,7 @@ const finalPuncts = new CharRanges(
   [0xa0, 0xbf], // Latin-1 punctuation and symbols
   [0x2018, 0x201f],
   0x2026 // HORIZONTAL ELLIPSIS
-).removeChars('/-+#&');
+).removeChars('/-_+#&');
 
 const closingBrackets = new CharRanges().addChars(')}]\u00bb');
 

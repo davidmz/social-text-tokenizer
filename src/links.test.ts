@@ -15,6 +15,7 @@ tableTest('links', tokenize(), [
   ['abcwww.example.com/', [new Link(0, 'abcwww.example.com/')]],
   ['(www.example.com/(ab))!', [new Link(1, 'www.example.com/(ab)')]],
   ['abcwww.example.common/', []],
+  ['www.example.com/ab_!', [new Link(0, 'www.example.com/ab_')]],
 
   ['http://example.net', [new Link(0, 'http://example.net')]],
   ['www.example.net', [new Link(0, 'www.example.net')]],

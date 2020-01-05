@@ -26,7 +26,7 @@ export class Link extends Token implements Prettifier {
     }
     try {
       pretty = decodeURIComponent(pretty);
-    } catch (e) {}
+    } catch (e) { }
 
     const m = /^([^\/]+)([^]*)/.exec(pretty);
     if (m) {
@@ -72,15 +72,21 @@ export class Link extends Token implements Prettifier {
 
 export const defaultTLDList = ['рф', 'com', 'net', 'org', 'edu'];
 
-export function tokenize({ tldList } = { tldList: defaultTLDList }) {
-  let tldsRe = tldList.map(escapeRegExp).join('|') + (tldList.length > 0 ? '|' : '');
+export type TokenizeParams = {
+  tldList?: string[]
+  tldRe?: string
+}
 
+export function tokenize({
+  tldList = defaultTLDList,
+  tldRe = ['xn--[a-z0-9]+', ...tldList.map(escapeRegExp), '[a-z]{2}'].join('|'),
+}: TokenizeParams = {}) {
   return combine(
     makeTokenizer(/(https?|ftp):\/\/[^\s<>]+/gi), // url with schema
     makeTokenizer(/www\.[^\s<>]+/gi), // started by www.
     makeTokenizer(
       new RegExp(
-        `(?:[a-zа-я0-9][a-zа-я0-9-]*\\.)+(?:xn--[a-z0-9]+|${tldsRe}[a-z]{2})(?::\\d+)?(?:/[^\\s<>]*)?`,
+        `(?:[a-zа-я0-9][a-zа-я0-9-]*\\.)+(?:${tldRe})(?::\\d+)?(?:/[^\\s<>]*)?`,
         'gi'
       )
     ) // url-like pattern

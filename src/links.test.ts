@@ -16,6 +16,11 @@ tableTest('links', tokenize(), [
   ['(www.example.com/(ab))!', [new Link(1, 'www.example.com/(ab)')]],
   ['abcwww.example.common/', []],
   ['www.example.com/ab_!', [new Link(0, 'www.example.com/ab_')]],
+  // Double quotes
+  ['example.com/ab_?q="hello"', [new Link(0, 'example.com/ab_?q="hello"')]],
+  ['"example.com/ab_?q="hello""', [new Link(1, 'example.com/ab_?q="hello"')]],
+  ['example.com/ab_?q="hello"+"word"', [new Link(0, 'example.com/ab_?q="hello"+"word"')]],
+  ['example.com/ab_?q="hell\'o"', [new Link(0, 'example.com/ab_?q="hell\'o"')]],
 
   ['http://example.net', [new Link(0, 'http://example.net')]],
   ['www.example.net', [new Link(0, 'www.example.net')]],

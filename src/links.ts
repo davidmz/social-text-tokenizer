@@ -104,13 +104,23 @@ const finalPuncts = new CharRanges(
   0x2026 // HORIZONTAL ELLIPSIS
 ).removeChars('/-_+#&');
 
-const closingBrackets = new CharRanges().addChars(')}]\u00bb');
-
 const wordAdjacentCharsRe = new RegExp(`[${wordAdjacentChars}]`);
 const finalPunctsRe = new RegExp(`[${finalPuncts}]+$`);
-const closingBracketsRe = new RegExp(`[${closingBrackets}]`);
-const noFinalClosingBracketsRe = new RegExp(`[^${closingBrackets}]+$`);
 const validBeforeCharsRe = new RegExp(`[${wordAdjacentChars.clone().removeChars('./')}]`);
+
+const openingBrackets = ['(', '[', '{', '\u00AB'];
+const closingBrackets = [')', ']', '}', '\u00BB'];
+const nonPairedQuotes = ['"', "'"];
+
+const anyClosingBracketsRe = new RegExp(`[${escapeRegExp([
+  ...closingBrackets,
+  ...nonPairedQuotes,
+].join(''))}]`);
+const finalNonBracketsRe = new RegExp(`[^${escapeRegExp([
+  ...openingBrackets,
+  ...closingBrackets,
+  ...nonPairedQuotes,
+].join(''))}]+$`);
 
 function makeTokenizer(regexp: RegExp): Tokenizer {
   return byRegexp(regexp, (offset, text, match) => {
@@ -128,20 +138,19 @@ function makeTokenizer(regexp: RegExp): Tokenizer {
     let tail = m[0];
     const head = text.substr(0, text.length - tail.length);
 
-    const headBalance = bracketBalance(head);
-    if (!closingBracketsRe.test(tail) || headBalance === 0) {
-      // no closing brackets or they are balanced, just cut them all
+    const headBalanced = isBalanced(head);
+    if (headBalanced || !anyClosingBracketsRe.test(tail)) {
+      // No closing brackets in tail or head is balanced, so just cut the tail
+      // off.
       return linkIfCorrect(regexp, head, match);
     }
 
-    // trim non-brackets
-    tail = tail.replace(noFinalClosingBracketsRe, '');
-    let b = headBalance;
+    // Trim non-brackets
+    tail = tail.replace(finalNonBracketsRe, '');
     for (let i = 0; i < tail.length; i++) {
-      b += bracketWeight(tail.charAt(i));
-      if (b === 0) {
-        tail = tail.substr(0, i + 1);
-        break;
+      const text = head + tail.substr(0, i);
+      if (isBalanced(text)) {
+        return linkIfCorrect(regexp, text, match);
       }
     }
 
@@ -160,21 +169,23 @@ function linkIfCorrect(re: RegExp, text: string, match: RegExpMatchArray): Link 
     : null;
 }
 
-const brackets: { [key: string]: number } = {
-  '(': 1,
-  ')': -1,
-  '[': 10,
-  ']': -10,
-  '{': 100,
-  '}': -100,
-  '\u00AB': 1000, // LEFT-POINTING DOUBLE ANGLE QUOTATION MARK («)
-  '\u00BB': -1000, // RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (»)
-};
+function isBalanced(text: string): boolean {
+  const balances = {} as { [key: string]: number };
 
-function bracketWeight(char: string) {
-  return char in brackets ? brackets[char] : 0;
-}
+  for (const c of text.split('')) {
+    const openedPos = openingBrackets.indexOf(c);
+    const closedPos = closingBrackets.indexOf(c);
+    const quotesPos = nonPairedQuotes.indexOf(c);
+    if (openedPos >= 0) {
+      balances[`b${openedPos}`] = (balances[`b${openedPos}`] || 0) + 1;
+    }
+    if (closedPos >= 0) {
+      balances[`b${closedPos}`] = (balances[`b${closedPos}`] || 0) - 1;
+    }
+    if (quotesPos >= 0) {
+      balances[`q${quotesPos}`] = 1 - (balances[`q${quotesPos}`] || 0);
+    }
+  }
 
-function bracketBalance(text: string) {
-  return text.split('').reduce((b, c) => b + bracketWeight(c), 0);
+  return !Object.values(balances).some(v => v !== 0);
 }

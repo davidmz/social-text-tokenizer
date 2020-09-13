@@ -45,6 +45,7 @@ tableTest('links', tokenize(), [
     'ru.wikipedia.org/wiki/Колода_«Русский_стиль»',
     [new Link(0, 'ru.wikipedia.org/wiki/Колода_«Русский_стиль»')],
   ],
+  ['example.com/ab_?q=hello*', [new Link(0, 'example.com/ab_?q=hello*')]],
 
   ['*.example.com', []],
   ['http://?!!?', []],

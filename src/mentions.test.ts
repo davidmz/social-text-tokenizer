@@ -10,4 +10,6 @@ tableTest('emails', tokenize(), [
   ['@alice,@bob!', [new Mention(0, '@alice'), new Mention(7, '@bob')]],
   ["@alice's @alice’s", [new Mention(0, '@alice'), new Mention(9, '@alice')]],
   ["@Alice's @alicE’s", [new Mention(0, '@Alice'), new Mention(9, '@alicE')]],
+  ["@bob-ский", [new Mention(0, '@bob')]],
+  ["@bob-", []],
 ]);

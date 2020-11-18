@@ -9,3 +9,4 @@ export { Email, tokenize as emails } from './emails';
 export { Mention, tokenize as mentions } from './mentions';
 export { Link, tokenize as links } from './links';
 export { Arrows, tokenize as arrows } from './arrows';
+export { Spoiler, tokenize as spoilers } from './spoiler';

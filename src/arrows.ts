@@ -7,7 +7,7 @@ export const tokenize = (re = /\u2191+|\^+/g) =>
   byRegexp(re, (offset: number, text: string, match: RegExpExecArray): Token | null => {
     if (
       text.charAt(0) === '\u2191' ||
-      text.length > 1 ||
+      (text.length > 1 && text === text.charAt(0).repeat(text.length)) ||
       offset === 0 ||
       offset === match.input.length - 1
     ) {
@@ -17,7 +17,7 @@ export const tokenize = (re = /\u2191+|\^+/g) =>
     const prevChar = match.input.charAt(offset - 1);
     const nextChar = match.input.charAt(offset + text.length);
 
-    if (/[WH]/.test(nextChar)) {
+    if (/[WH]/.test(nextChar) || /\d/.test(prevChar)) {
       return null;
     }
 

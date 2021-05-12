@@ -6,3 +6,9 @@ tableTest('arrows', tokenize(), [
   [' ^W ^H ', []],
   ['10^6 or (=^・^=)', []],
 ]);
+
+tableTest('arrows', tokenize(/\^[1-9]\d*/g), [
+  [' ^2 ^01 ^10', [new Arrows(1, '^2'), new Arrows(8, '^10')]],
+  [' ^W ^H ', []],
+  ['10^6 or (=^・^=)', []],
+]);

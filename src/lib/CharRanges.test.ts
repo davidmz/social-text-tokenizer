@@ -49,7 +49,10 @@ describe('CharRanges', () => {
     it('should add non-overlaping range', () => {
       cr.add([1, 5]);
       cr.add([7, 10]);
-      expect(cr.ranges).toEqual([[1, 5], [7, 10]]);
+      expect(cr.ranges).toEqual([
+        [1, 5],
+        [7, 10],
+      ]);
     });
 
     it('should join range if overlapped', () => {
@@ -101,13 +104,22 @@ describe('CharRanges', () => {
     it('should split existing range if removed area is inside it', () => {
       cr.add([1, 5]);
       cr.remove([2, 3]);
-      expect(cr.ranges).toEqual([[1, 1], [4, 5]]);
+      expect(cr.ranges).toEqual([
+        [1, 1],
+        [4, 5],
+      ]);
     });
 
     it('should remove multiple ranges', () => {
       cr.add([1, 5], [7, 9], [11, 15]);
       cr.remove([2, 3], 8, [12, 15]);
-      expect(cr.ranges).toEqual([[1, 1], [4, 5], [7, 7], [9, 9], [11, 11]]);
+      expect(cr.ranges).toEqual([
+        [1, 1],
+        [4, 5],
+        [7, 7],
+        [9, 9],
+        [11, 11],
+      ]);
     });
   });
 

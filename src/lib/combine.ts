@@ -9,7 +9,7 @@ export default function combine(...tokenizers: Tokenizer[]): Tokenizer {
   } else if (tokenizers.length === 1) {
     return tokenizers[0];
   }
-  return function(text: string): Token[] {
+  return function (text: string): Token[] {
     const allFounds = tokenizers.map((f) => f(text));
     let position = 0;
     const result: Token[] = [];
@@ -21,12 +21,11 @@ export default function combine(...tokenizers: Tokenizer[]): Tokenizer {
         break;
       }
 
-      const firstItem = tokens.reduce(
-        (first, it) =>
-          first.offset < it.offset || // first by offset
-          (first.offset === it.offset && first.text.length >= it.text.length) // or has a longer length
-            ? first
-            : it
+      const firstItem = tokens.reduce((first, it) =>
+        first.offset < it.offset || // first by offset
+        (first.offset === it.offset && first.text.length >= it.text.length) // or has a longer length
+          ? first
+          : it
       );
       result.push(firstItem);
       position = firstItem.offset + firstItem.text.length;

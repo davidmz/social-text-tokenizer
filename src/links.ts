@@ -26,7 +26,7 @@ export class Link extends Token implements Prettifier {
     }
     try {
       pretty = decodeURIComponent(pretty);
-    } catch (e) { }
+    } catch (e) {}
 
     const m = /^([^\/]+)([^]*)/.exec(pretty);
     if (m) {
@@ -73,9 +73,9 @@ export class Link extends Token implements Prettifier {
 export const defaultTLDList = ['рф', 'com', 'net', 'org', 'edu'];
 
 export type TokenizeParams = {
-  tldList?: string[]
-  tldRe?: string
-}
+  tldList?: string[];
+  tldRe?: string;
+};
 
 export function tokenize({
   tldList = defaultTLDList,
@@ -85,10 +85,7 @@ export function tokenize({
     makeTokenizer(/(https?|ftp):\/\/[^\s<>]+/gi), // url with schema
     makeTokenizer(/www\.[^\s<>]+/gi), // started by www.
     makeTokenizer(
-      new RegExp(
-        `(?:[a-zа-я0-9][a-zа-я0-9-]*\\.)+(?:${tldRe})(?::\\d+)?(?:/[^\\s<>]*)?`,
-        'gi'
-      )
+      new RegExp(`(?:[a-zа-я0-9][a-zа-я0-9-]*\\.)+(?:${tldRe})(?::\\d+)?(?:/[^\\s<>]*)?`, 'gi')
     ) // url-like pattern
   );
 }
@@ -112,15 +109,12 @@ const openingBrackets = ['(', '[', '{', '\u00AB'];
 const closingBrackets = [')', ']', '}', '\u00BB'];
 const nonPairedQuotes = ['"', "'"];
 
-const anyClosingBracketsRe = new RegExp(`[${escapeRegExp([
-  ...closingBrackets,
-  ...nonPairedQuotes,
-].join(''))}]`);
-const finalNonBracketsRe = new RegExp(`[^${escapeRegExp([
-  ...openingBrackets,
-  ...closingBrackets,
-  ...nonPairedQuotes,
-].join(''))}]+$`);
+const anyClosingBracketsRe = new RegExp(
+  `[${escapeRegExp([...closingBrackets, ...nonPairedQuotes].join(''))}]`
+);
+const finalNonBracketsRe = new RegExp(
+  `[^${escapeRegExp([...openingBrackets, ...closingBrackets, ...nonPairedQuotes].join(''))}]+$`
+);
 
 function makeTokenizer(regexp: RegExp): Tokenizer {
   return byRegexp(regexp, (offset, text, match) => {
@@ -187,5 +181,5 @@ function isBalanced(text: string): boolean {
     }
   }
 
-  return !Object.values(balances).some(v => v !== 0);
+  return !Object.values(balances).some((v) => v !== 0);
 }

@@ -6,7 +6,7 @@ export default function byRegexp(regex: RegExp, processMatch: MatchProcessor): T
   if (!regex.global) {
     throw new Error('RegExp must have a global flag!');
   }
-  return function(text: string): Token[] {
+  return function (text: string): Token[] {
     regex.lastIndex = 0;
     const founds: Token[] = [];
     while (true) {

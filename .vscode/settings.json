@@ -1,5 +1,7 @@
 {
   "editor.formatOnSave": true,
-  "tslint.enable": false,
-  "eslint.enable": false
+  "eslint.enable": false,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

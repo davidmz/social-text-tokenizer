@@ -10,7 +10,7 @@ export class Text extends Token {}
  * tokens produced by wrapped tokenizer.
  */
 export default function withText(tokenizer: Tokenizer): Tokenizer {
-  return function(text: string): Token[] {
+  return function (text: string): Token[] {
     const result: Token[] = [];
     let pos = 0;
     for (const t of tokenizer(text)) {

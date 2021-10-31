@@ -9,12 +9,12 @@
 ```JavaScript
 import {
   combine, withText,
-  hashTags, emails, mentions, links, arrows
+  hashTags, emails, mentions, foreignMentions, links, arrows
 } from 'social-text-tokenizer';
 
-// Находит в тексте hashTags, emails, mentions, links, arrows,
+// Находит в тексте hashTags, emails, mentions, foreignMentions, links, arrows,
 // объединяет результаты и заполняет промежутки токенами типа Text.
-const parse = withText(combine(hashTags, emails, mentions, links, arrows));
+const parse = withText(combine(hashTags, emails, mentions, foreignMentions, links, arrows));
 
 const tokens = parse(text);
 ```
@@ -48,6 +48,7 @@ class Token {
 - HashTag (и токенизатор _hashTags()_) — хэштег
 - Email (и токенизатор _emails()_) — адрес e-mail
 - Mention (и токенизатор _mentions()_) — @-упоминание логина пользователя
+- ForeignMention (и токенизатор _foreignMentions()_) — упоминание пользователя другой соцсети вида username@service
 - Link (и токенизаторы _links()_) — URL в тексте
 - Arrows (и токенизатор _arrows()_) — ссылки на комментарии вида ^^ или ↑↑
 

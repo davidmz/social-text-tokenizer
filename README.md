@@ -14,7 +14,7 @@ import {
 
 // Находит в тексте hashTags, emails, mentions, foreignMentions, links, arrows,
 // объединяет результаты и заполняет промежутки токенами типа Text.
-const parse = withText(combine(hashTags, emails, mentions, foreignMentions, links, arrows));
+const parse = withText(combine(hashTags(), emails(), mentions(), foreignMentions(), links(), arrows()));
 
 const tokens = parse(text);
 ```

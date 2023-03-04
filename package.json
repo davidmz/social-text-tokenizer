@@ -1,6 +1,6 @@
 {
   "name": "social-text-tokenizer",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Posts/comments text parser for FreeFeed.net",
   "homepage": "https://github.com/davidmz/social-text-tokenizer",
   "author": "David Mzareulyan <david@hiero.ru> (https://github.com/davidmz)",
@@ -8,6 +8,16 @@
   "main": "build/cjs/index.js",
   "module": "build/esm/index.js",
   "types": "build/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./build/esm/index.js",
+      "default": "./build/cjs/index.js"
+    },
+    "./lib": {
+      "import": "./build/esm/lib/index.js",
+      "default": "./build/cjs/lib/index.js"
+    }
+  },
   "scripts": {
     "clean": "del-cli build/cjs build/esm",
     "build": "tsc && tsc -p ./tsconfig.esm.json",

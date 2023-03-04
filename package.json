@@ -1,6 +1,6 @@
 {
   "name": "social-text-tokenizer",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Posts/comments text parser for FreeFeed.net",
   "homepage": "https://github.com/davidmz/social-text-tokenizer",
   "author": "David Mzareulyan <david@hiero.ru> (https://github.com/davidmz)",
@@ -16,6 +16,13 @@
     "./lib": {
       "import": "./build/esm/lib/index.js",
       "default": "./build/cjs/lib/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "lib": [
+        "./build/esm/lib/index.d.ts"
+      ]
     }
   },
   "scripts": {

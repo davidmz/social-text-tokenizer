@@ -1,48 +1,33 @@
 {
   "name": "social-text-tokenizer",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "Posts/comments text parser for FreeFeed.net",
   "homepage": "https://github.com/davidmz/social-text-tokenizer",
   "author": "David Mzareulyan <david@hiero.ru> (https://github.com/davidmz)",
   "license": "MIT",
-  "main": "build/cjs/index.js",
-  "module": "build/esm/index.js",
-  "types": "build/esm/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./build/esm/index.js",
-      "default": "./build/cjs/index.js"
-    },
-    "./lib": {
-      "import": "./build/esm/lib/index.js",
-      "default": "./build/cjs/lib/index.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "lib": [
-        "./build/esm/lib/index.d.ts"
-      ]
-    }
-  },
+  "main": "cjs/index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
   "scripts": {
-    "clean": "del-cli build/cjs build/esm",
-    "build": "tsc && tsc -p ./tsconfig.esm.json",
-    "test": "jest",
-    "prepack": "run-s clean test build"
+    "clean": "del-cli build",
+    "build-ts": "tsc -p ./tsconfig.esm.json && tsc",
+    "test": "vitest --run",
+    "prepare-publish": "node ./prepare-publish.mjs",
+    "build": "run-s clean test build-ts prepare-publish"
+  },
+  "publishConfig": {
+    "directory": "build"
   },
   "devDependencies": {
-    "@types/jest": "^29.4.0",
     "@types/lodash.escaperegexp": "^4.1.7",
     "@types/node": "^18.14.6",
     "@types/punycode": "~2.1.0",
     "del-cli": "^5.0.0",
-    "jest": "^29.4.3",
     "npm-run-all": "~4.1.5",
     "prettier": "2.8.4",
-    "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "vitest": "^0.29.2"
   },
   "dependencies": {
     "lodash.escaperegexp": "^4.1.2",

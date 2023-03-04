@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "outDir": "./build/esm/",
+    "outDir": "./build/",
     "target": "esnext",
     "module": "es6",
     "declaration": true

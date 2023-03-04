@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import byRegexp, { makeToken } from './byRegexp';
 import { Token } from '../types';
 

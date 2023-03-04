@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { Token, Tokenizer } from '../types';
 
 export type TestData = [string, Token[]][];

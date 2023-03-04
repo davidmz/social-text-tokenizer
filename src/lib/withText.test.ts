@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import withText, { Text } from './withText';
 import { Token } from '../types';
 import byWords from './byWords';

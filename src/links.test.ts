@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { tokenize, Link } from './links';
 import { tableTest } from './lib/test-helpers';
 

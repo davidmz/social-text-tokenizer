@@ -1,8 +1,11 @@
+import { beforeEach, describe, expect, it } from 'vitest';
 import CharRanges from './CharRanges';
 
 describe('CharRanges', () => {
   let cr: CharRanges;
-  beforeEach(() => (cr = new CharRanges()));
+  beforeEach(() => {
+    cr = new CharRanges();
+  });
 
   describe('add', () => {
     it('should add range duroing initialization', () => {

@@ -1,8 +1,9 @@
-import { hashTags, emails, mentions, links, arrows } from '..';
-import { testData, TestEntryResult, EnrtyType } from './legacy.data';
-import { Token, Prettifier } from '../types';
-import withText from '../lib/withText';
+import { describe, expect, it } from 'vitest';
+import { arrows, emails, hashTags, links, mentions } from '..';
 import combine from '../lib/combine';
+import withText from '../lib/withText';
+import { Prettifier, Token } from '../types';
+import { EnrtyType, TestEntryResult, testData } from './legacy.data';
 
 describe('Legacy data set', () => {
   const tokenize = withText(combine(hashTags(), emails(), mentions(), links(), arrows()));

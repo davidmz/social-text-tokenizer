@@ -1,38 +1,54 @@
 {
   "name": "social-text-tokenizer",
-  "version": "2.5.0",
+  "version": "3.0.0-beta",
   "description": "Posts/comments text parser for FreeFeed.net",
   "homepage": "https://github.com/davidmz/social-text-tokenizer",
   "author": "David Mzareulyan <david@hiero.ru> (https://github.com/davidmz)",
   "license": "MIT",
-  "main": "cjs/index.js",
-  "module": "esm/index.js",
-  "types": "esm/index.d.ts",
   "scripts": {
-    "clean": "del-cli build",
-    "build-ts": "tsc && tsc -p ./tsconfig.esm.json",
     "test": "vitest --run",
-    "prepare-publish": "node ./prepare-publish.mjs",
-    "build": "run-s clean test build-ts prepare-publish",
-    "prepublish": "run-s build"
-  },
-  "publishConfig": {
-    "directory": "build"
+    "test-watch": "vitest",
+    "build": "run-s check clean build:all build:prepublish",
+    "check": "run-p check:tsc check:lint test",
+    "check:tsc": "tsc",
+    "check:lint": "eslint src build-tools --ext .js,.ts,.mjs",
+    "prepublish": "run-s build",
+    "clean": "del-cli build",
+    "build:cjs": "tsc -p ./build-tools/tsconfig.cjs.json",
+    "build:esm": "tsc -p ./build-tools/tsconfig.esm.json",
+    "build:types": "tsc -p ./build-tools/tsconfig.types.json",
+    "build:all": "run-p build:cjs build:esm build:types",
+    "build:prepublish": "node ./build-tools/prepublish.mjs"
   },
   "devDependencies": {
     "@types/lodash.escaperegexp": "^4.1.7",
-    "@types/node": "^18.14.6",
+    "@types/node": "^18.17.6",
     "@types/punycode": "~2.1.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
     "del-cli": "^5.0.0",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
     "npm-run-all": "~4.1.5",
-    "prettier": "2.8.4",
+    "prettier": "3.0.2",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.5",
-    "vitest": "^0.29.2"
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.2"
   },
   "dependencies": {
     "lodash.escaperegexp": "^4.1.2",
     "punycode": "^2.3.0",
-    "tslib": "^2.5.0"
-  }
+    "tslib": "^2.6.2"
+  },
+  "publishConfig": {
+    "directory": "build"
+  },
+  "subPackages": [
+    "filters",
+    "utils",
+    "prettifiers"
+  ]
 }

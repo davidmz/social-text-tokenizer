@@ -1,9 +1,16 @@
-export type EnrtyType = 'text' | 'link' | 'email' | 'atLink' | 'hashTag' | 'arrow' | 'localLink';
+export type EntryType =
+  | 'text'
+  | 'link'
+  | 'email'
+  | 'atLink'
+  | 'hashTag'
+  | 'arrow'
+  | 'localLink';
 
 export type TestEntryResult = {
-  type: EnrtyType;
+  type: EntryType;
   text: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }[];
 
 type TestEntry = {
@@ -28,7 +35,9 @@ export const testData: TestEntry[] = [
   },
   {
     text: 'ftp://google.com',
-    result: [{ type: 'link', text: 'ftp://google.com', url: 'ftp://google.com/' }],
+    result: [
+      { type: 'link', text: 'ftp://google.com', url: 'ftp://google.com/' },
+    ],
   },
   {
     text: 'hxxp://google.com',
@@ -46,7 +55,11 @@ export const testData: TestEntry[] = [
     text: 'aa (google.com/((hi[)])), bb',
     result: [
       { type: 'text', text: 'aa (' },
-      { type: 'link', text: 'google.com/((hi[)])', url: 'http://google.com/((hi[)])' },
+      {
+        type: 'link',
+        text: 'google.com/((hi[)])',
+        url: 'http://google.com/((hi[)])',
+      },
       { type: 'text', text: '), bb' },
     ],
   },
@@ -84,7 +97,11 @@ export const testData: TestEntry[] = [
     text: 'aa medium.com/@alice, @alice bb',
     result: [
       { type: 'text', text: 'aa ' },
-      { type: 'link', text: 'medium.com/@alice', url: 'http://medium.com/@alice' },
+      {
+        type: 'link',
+        text: 'medium.com/@alice',
+        url: 'http://medium.com/@alice',
+      },
       { type: 'text', text: ', ' },
       { type: 'atLink', text: '@alice', username: 'alice' },
       { type: 'text', text: ' bb' },
@@ -93,7 +110,10 @@ export const testData: TestEntry[] = [
   {
     text: 'в телеграме выделяется ссылкой и БЕСИТ DNS:*.example.com - larhat',
     result: [
-      { type: 'text', text: 'в телеграме выделяется ссылкой и БЕСИТ DNS:*.example.com - larhat' },
+      {
+        type: 'text',
+        text: 'в телеграме выделяется ссылкой и БЕСИТ DNS:*.example.com - larhat',
+      },
     ],
   },
   {
@@ -149,7 +169,11 @@ export const testData: TestEntry[] = [
     result: [
       { type: 'email', text: 'aa@bb.ru', address: 'aa@bb.ru' },
       { type: 'text', text: ' ' },
-      { type: 'email', text: 'bb@замкинаокна.рф', address: 'bb@xn--80aaazglcmlcj.xn--p1ai' },
+      {
+        type: 'email',
+        text: 'bb@замкинаокна.рф',
+        address: 'bb@xn--80aaazglcmlcj.xn--p1ai',
+      },
     ],
   },
   {
@@ -183,11 +207,19 @@ export const testData: TestEntry[] = [
   {
     text: 'http://slashdot.org/, http://lwn.net/ and others. may be, http://opensource.org/?',
     result: [
-      { type: 'link', text: 'http://slashdot.org/', url: 'http://slashdot.org/' },
+      {
+        type: 'link',
+        text: 'http://slashdot.org/',
+        url: 'http://slashdot.org/',
+      },
       { type: 'text', text: ', ' },
       { type: 'link', text: 'http://lwn.net/', url: 'http://lwn.net/' },
       { type: 'text', text: ' and others. may be, ' },
-      { type: 'link', text: 'http://opensource.org/', url: 'http://opensource.org/' },
+      {
+        type: 'link',
+        text: 'http://opensource.org/',
+        url: 'http://opensource.org/',
+      },
       { type: 'text', text: '?' },
     ],
   },
@@ -212,7 +244,11 @@ export const testData: TestEntry[] = [
   {
     text: 'https://пивбар-хмель.рф/ for the record',
     result: [
-      { type: 'link', text: 'https://пивбар-хмель.рф/', url: 'https://пивбар-хмель.рф/' },
+      {
+        type: 'link',
+        text: 'https://пивбар-хмель.рф/',
+        url: 'https://пивбар-хмель.рф/',
+      },
       { type: 'text', text: ' for the record' },
     ],
   },
@@ -242,8 +278,15 @@ export const testData: TestEntry[] = [
     text: 'XSS: http://example.com/foo?">here.</a><script>window.alert("wow");</script>',
     result: [
       { type: 'text', text: 'XSS: ' },
-      { type: 'link', text: 'http://example.com/foo', url: 'http://example.com/foo' },
-      { type: 'text', text: '?">here.</a><script>window.alert("wow");</script>' },
+      {
+        type: 'link',
+        text: 'http://example.com/foo',
+        url: 'http://example.com/foo',
+      },
+      {
+        type: 'text',
+        text: '?">here.</a><script>window.alert("wow");</script>',
+      },
     ],
   },
   {
@@ -277,7 +320,11 @@ export const testData: TestEntry[] = [
     text: 'IPs: http://127.0.0.1:3000/',
     result: [
       { type: 'text', text: 'IPs: ' },
-      { type: 'link', text: 'http://127.0.0.1:3000/', url: 'http://127.0.0.1:3000/' },
+      {
+        type: 'link',
+        text: 'http://127.0.0.1:3000/',
+        url: 'http://127.0.0.1:3000/',
+      },
     ],
   },
   {
@@ -387,7 +434,13 @@ export const testData: TestEntry[] = [
   },
   {
     text: 'john+smith@gmail.com',
-    result: [{ type: 'email', text: 'john+smith@gmail.com', address: 'john+smith@gmail.com' }],
+    result: [
+      {
+        type: 'email',
+        text: 'john+smith@gmail.com',
+        address: 'john+smith@gmail.com',
+      },
+    ],
   },
   //  {
   //    text: 'one #two three',
@@ -444,15 +497,27 @@ export const testData: TestEntry[] = [
     text: 'URL типа freefeed.net//anything site.net//anything',
     result: [
       { type: 'text', text: 'URL типа ' },
-      { type: 'localLink', text: 'freefeed.net//anything', uri: '/.//anything' },
+      {
+        type: 'localLink',
+        text: 'freefeed.net//anything',
+        uri: '/.//anything',
+      },
       { type: 'text', text: ' ' },
-      { type: 'link', text: 'site.net//anything', url: 'http://site.net//anything' },
+      {
+        type: 'link',
+        text: 'site.net//anything',
+        url: 'http://site.net//anything',
+      },
     ],
   },
   {
     text: 'https://freefeed.net/ m.freefeed.net m.freefeed.net/xxx',
     result: [
-      { type: 'link', text: 'https://freefeed.net/', url: 'https://freefeed.net/' },
+      {
+        type: 'link',
+        text: 'https://freefeed.net/',
+        url: 'https://freefeed.net/',
+      },
       { type: 'text', text: ' ' },
       { type: 'link', text: 'm.freefeed.net', url: 'http://m.freefeed.net/' },
       { type: 'text', text: ' ' },
@@ -485,7 +550,12 @@ export const testData: TestEntry[] = [
   {
     text: '=^-^= 10^21Bq например^this (=^・^=) >^_^< (^0_0^)',
     withArrows: true,
-    result: [{ type: 'text', text: '=^-^= 10^21Bq например^this (=^・^=) >^_^< (^0_0^)' }],
+    result: [
+      {
+        type: 'text',
+        text: '=^-^= 10^21Bq например^this (=^・^=) >^_^< (^0_0^)',
+      },
+    ],
   },
   {
     text: 'abc «http://example.com/»',
@@ -511,12 +581,22 @@ export const testData: TestEntry[] = [
   },
   {
     text: 'freefeed.net@gmail.com',
-    result: [{ type: 'email', text: 'freefeed.net@gmail.com', address: 'freefeed.net@gmail.com' }],
+    result: [
+      {
+        type: 'email',
+        text: 'freefeed.net@gmail.com',
+        address: 'freefeed.net@gmail.com',
+      },
+    ],
   },
   {
     text: 'www.freefeed.net@gmail.com',
     result: [
-      { type: 'email', text: 'www.freefeed.net@gmail.com', address: 'www.freefeed.net@gmail.com' },
+      {
+        type: 'email',
+        text: 'www.freefeed.net@gmail.com',
+        address: 'www.freefeed.net@gmail.com',
+      },
     ],
   },
   {

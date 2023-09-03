@@ -1,53 +1,71 @@
 import { describe, expect, it } from 'vitest';
-import { arrows, emails, hashTags, links, mentions } from '..';
-import combine from '../lib/combine';
-import withText from '../lib/withText';
-import { Prettifier, Token } from '../types';
-import { EnrtyType, TestEntryResult, testData } from './legacy.data';
+
+import type { Token } from '../';
+import {
+  ARROWS,
+  arrows,
+  combine,
+  EMAIL,
+  emails,
+  HASHTAG,
+  hashtags,
+  LINK,
+  links,
+  MENTION,
+  mentions,
+  TEXT,
+  withTexts,
+} from '../';
+import { prettyEmail, prettyLink } from '../prettifiers';
+import type { EntryType, TestEntryResult } from './legacy.data';
+import { testData } from './legacy.data';
 
 describe('Legacy data set', () => {
-  const tokenize = withText(combine(hashTags(), emails(), mentions(), links(), arrows()));
+  const tokenize = withTexts(
+    combine(hashtags(), emails(), mentions(), links(), arrows()),
+  );
   testData.map(({ text, result }) =>
-    it(`should parse "${text}"`, () => expect(legacify(tokenize(text))).toEqual(unlegacify(result)))
+    it(`should parse "${text}"`, () =>
+      expect(legacify([...tokenize(text)])).toEqual(unlegacify(result))),
   );
 });
 
-const legacyTypes: { [key: string]: EnrtyType } = {
-  Text: 'text',
-  Link: 'link',
-  Email: 'email',
-  Mention: 'atLink',
-  HashTag: 'hashTag',
-  Arrows: 'arrow',
+const modernTypes: Record<EntryType, string> = {
+  text: TEXT,
+  link: LINK,
+  localLink: LINK,
+  email: EMAIL,
+  atLink: MENTION,
+  hashTag: HASHTAG,
+  arrow: ARROWS,
 };
 
 type LegacyResult = {
-  type: EnrtyType;
+  type: string;
   text: string;
 };
 
-function legacify(ts: (Token | (Token & Prettifier))[]): LegacyResult[] {
+function legacify(ts: Token[]): LegacyResult[] {
   return ts.map((t) => {
-    const type = legacyTypes[t.type];
-    const text = 'pretty' in t ? t.pretty : t.text;
-    return { type, text } as LegacyResult;
+    let text = t.text;
+    if (t.type === EMAIL) {
+      text = prettyEmail(text);
+    }
+    if (t.type === LINK) {
+      const m = /^\w+:\/\//.exec(text);
+      const hasSlash = text.endsWith('/');
+      text = prettyLink(text);
+      if (m) {
+        text = m[0] + text;
+      }
+      if (hasSlash && !text.endsWith('/')) {
+        text = text + '/';
+      }
+    }
+    return { type: t.type, text };
   });
 }
 
 function unlegacify(data: TestEntryResult): LegacyResult[] {
-  return data.map((d) => {
-    let { type, text } = d;
-    if (d.type === 'link') {
-      text = text.replace(/^\w+:\/\//, '');
-    }
-    if (/^[^\/]+\/$/i.test(text)) {
-      text = text.substr(0, text.length - 1);
-    }
-
-    if (type == 'localLink') {
-      type = 'link';
-    }
-
-    return { type, text };
-  });
+  return data.map((d) => ({ type: modernTypes[d.type], text: d.text }));
 }

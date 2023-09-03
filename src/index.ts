@@ -1,12 +1,12 @@
-export { default as combine } from './lib/combine';
-export { default as withText } from './lib/withText';
+export { combine } from './combine';
+export type { Token, Tokenizer } from './types';
+export { withTexts } from './with-texts';
 
-export { Token, Tokenizer, Prettifier } from './types';
-
-export { Text } from './lib/withText';
-export { HashTag, tokenize as hashTags } from './hashtags';
-export { Email, tokenize as emails } from './emails';
-export { Mention, tokenize as mentions } from './mentions';
-export { ForeignMention, tokenize as foreignMentions } from './foreign-mentions';
-export { Link, tokenize as links } from './links';
-export { Arrows, tokenize as arrows } from './arrows';
+// Tokens
+export * from './token-types';
+export { arrows } from './tokens/arrows';
+export { emails } from './tokens/emails';
+export { foreignMentions } from './tokens/foreign-mentions';
+export { hashtags } from './tokens/hashtags';
+export { links, type LinkTokenizerParams } from './tokens/links';
+export { mentions } from './tokens/mentions';

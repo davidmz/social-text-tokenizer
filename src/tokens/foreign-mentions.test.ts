@@ -11,4 +11,5 @@ tableTest('foreignMentions', foreignMentions(), [
   ['ab@cd', [tok(0, 'ab@cd')]],
   ['a@-', []],
   ['a@b-', []],
+  ['a@b.cd', []],
 ]);

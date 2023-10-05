@@ -16,4 +16,5 @@ tableTest('mentions', mentions(), [
   ["@Alice's @alicE’s", [tok(0, '@Alice'), tok(9, '@alicE')]],
   ['@bob-ский', [tok(0, '@bob')]],
   ['@bob-', []],
+  ['@bob.com', []],
 ]);

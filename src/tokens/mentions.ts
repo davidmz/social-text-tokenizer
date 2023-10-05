@@ -21,6 +21,11 @@ export function withProperCharsAfter(token: Token, input: string) {
     if (wordAdjacentChars.includesChar(textAfter.charAt(1))) {
       return null;
     }
+  } else if (textAfter.length >= 2 && textAfter.charAt(0) === '.') {
+    // Disallow word char after dot to exclude '@domain.com' match
+    if (!wordAdjacentChars.includesChar(textAfter.charAt(1))) {
+      return null;
+    }
   } else if (
     textAfter !== '' &&
     !wordAdjacentChars.includesChar(textAfter.charAt(0))

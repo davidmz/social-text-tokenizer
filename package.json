@@ -5,20 +5,16 @@
   "homepage": "https://github.com/davidmz/social-text-tokenizer",
   "author": "David Mzareulyan <david@hiero.ru> (https://github.com/davidmz)",
   "license": "MIT",
+  "sideEffects": false,
   "scripts": {
     "test": "vitest --run",
     "test-watch": "vitest",
-    "build": "run-s check clean build:all build:prepublish",
+    "build": "run-s check build:unbuild",
     "check": "run-p check:tsc check:lint test",
+    "build:unbuild": "unbuild",
     "check:tsc": "tsc",
-    "check:lint": "eslint src build-tools --ext .js,.ts,.mjs",
-    "prepublish": "run-s build",
-    "clean": "del-cli build",
-    "build:cjs": "tsc -p ./build-tools/tsconfig.cjs.json",
-    "build:esm": "tsc -p ./build-tools/tsconfig.esm.json",
-    "build:types": "tsc -p ./build-tools/tsconfig.types.json",
-    "build:all": "run-p build:cjs build:esm build:types",
-    "build:prepublish": "node ./build-tools/prepublish.mjs"
+    "check:lint": "eslint src build.config.ts --ext .js,.ts,.mjs",
+    "prepublish": "run-s build"
   },
   "devDependencies": {
     "@types/lodash.escaperegexp": "^4.1.7",
@@ -35,7 +31,9 @@
     "npm-run-all": "~4.1.5",
     "prettier": "3.0.2",
     "ts-node": "^10.9.1",
+    "type-fest": "^4.3.1",
     "typescript": "^5.1.6",
+    "unbuild": "^2.0.0",
     "vitest": "^0.34.2"
   },
   "dependencies": {
@@ -45,10 +43,5 @@
   },
   "publishConfig": {
     "directory": "build"
-  },
-  "subPackages": [
-    "filters",
-    "utils",
-    "prettifiers"
-  ]
+  }
 }

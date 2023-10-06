@@ -41,6 +41,9 @@ function preparePackage() {
     }
   }
 
+  newPkg.main = `./index.cjs`;
+  newPkg.module = `./index.mjs`;
+
   newPkg.exports = {};
   for (const p of paths) {
     addExportsEntry(newPkg.exports, p);

@@ -5,8 +5,8 @@
     "target": "ESNext",
     "lib": ["ES2017", "DOM"],
 
-    "moduleResolution": "node",
-    "module": "commonjs",
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
     "declaration": false,
     "importHelpers": true,
 
@@ -17,5 +17,5 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["./src/**/*", "./build.config.ts"],
-  "exclude": ["./src/**/*.test.ts", "./src/legacy-tests"]
+  "exclude": ["./src/legacy-tests", "./build"]
 }

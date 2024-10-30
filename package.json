@@ -1,6 +1,6 @@
 {
   "name": "social-text-tokenizer",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Posts/comments text parser for FreeFeed.net",
   "homepage": "https://github.com/davidmz/social-text-tokenizer",
   "author": "David Mzareulyan <david@hiero.ru> (https://github.com/davidmz)",

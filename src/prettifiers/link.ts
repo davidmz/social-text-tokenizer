@@ -9,7 +9,7 @@ export function prettyLink(text: string, maxLength = Infinity): string {
   }
   try {
     pretty = decodeURIComponent(pretty);
-  } catch (e) {
+  } catch {
     // do nothing
   }
 

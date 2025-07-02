@@ -20,7 +20,9 @@ export function reTokenizer(
     let match: RegExpExecArray | null;
     while ((match = regex.exec(text)) !== null) {
       const it = processMatch(match.index, match[0], match);
-      it && result.push(it);
+      if (it) {
+        result.push(it);
+      }
     }
     return result;
   };

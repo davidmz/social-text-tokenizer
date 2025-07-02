@@ -18,6 +18,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@davidmz/ts-lib-build':
+        specifier: ^0.3.0
+        version: 0.3.0(typescript@5.8.3)
       '@eslint/js':
         specifier: ^9.30.1
         version: 9.30.1
@@ -72,9 +75,6 @@ importers:
       typescript-eslint:
         specifier: ^8.35.1
         version: 8.35.1(eslint@9.30.1(jiti@2.4.2))(typescript@5.8.3)
-      unbuild:
-        specifier: ^3.5.0
-        version: 3.5.0(typescript@5.8.3)
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@24.0.10)(jiti@2.4.2)
@@ -93,6 +93,10 @@ packages:
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
+
+  '@davidmz/ts-lib-build@0.3.0':
+    resolution: {integrity: sha512-xFf0ZaebCp5egSRhuknoJCTgzEAyQuAU+K/RABjfzUDoDo6T2HineYwmjfpR8BYeFhlI7Pesr9iSFAwNH6ZOGQ==}
+    hasBin: true
 
   '@esbuild/aix-ppc64@0.25.5':
     resolution: {integrity: sha512-9o3TMmpmftaCMepOdA5k/yDw8SfInyzWWTjYTFCX3kPSDJMROQTb8jg+h9Cnwnmm1vOzvxN7gIfB5V2ewpjtGA==}
@@ -2045,6 +2049,9 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
+  ts-json-check@2.0.3:
+    resolution: {integrity: sha512-/gFkI2K361ag3je24S/BP8svllMT4ph+cfDroaWyHngnZLxU8d69fVe29UEs7wWDCqSOpJc97x1oaGnIYGEs5A==}
+
   ts-node@10.9.2:
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
@@ -2136,6 +2143,10 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+
+  utility-types@3.10.0:
+    resolution: {integrity: sha512-O11mqxmi7wMKCo6HKFt5AhO4BwY3VV68YU07tgxfz8zJTIxr4BpsezN49Ffwy9j3ZpwwJp4fkRwjRzq3uWE6Rg==}
+    engines: {node: '>= 4'}
 
   v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
@@ -2273,6 +2284,17 @@ snapshots:
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
+
+  '@davidmz/ts-lib-build@0.3.0(typescript@5.8.3)':
+    dependencies:
+      ts-json-check: 2.0.3
+      unbuild: 3.5.0(typescript@5.8.3)
+    transitivePeerDependencies:
+      - sass
+      - typescript
+      - vue
+      - vue-sfc-transformer
+      - vue-tsc
 
   '@esbuild/aix-ppc64@0.25.5':
     optional: true
@@ -4266,6 +4288,10 @@ snapshots:
     dependencies:
       typescript: 5.8.3
 
+  ts-json-check@2.0.3:
+    dependencies:
+      utility-types: 3.10.0
+
   ts-node@10.9.2(@types/node@24.0.10)(typescript@5.8.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
@@ -4403,6 +4429,8 @@ snapshots:
       punycode: 2.3.1
 
   util-deprecate@1.0.2: {}
+
+  utility-types@3.10.0: {}
 
   v8-compile-cache-lib@3.0.1: {}
 

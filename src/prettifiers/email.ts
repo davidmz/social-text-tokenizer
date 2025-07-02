@@ -1,9 +1,9 @@
-import { toUnicode } from 'punycode.js';
+import punycode from 'punycode.js';
 
 import { safeHref } from './safe';
 
 export function prettyEmail(text: string): string {
-  return toUnicode(text);
+  return punycode.toUnicode(text);
 }
 
 export function emailHref(text: string): string {

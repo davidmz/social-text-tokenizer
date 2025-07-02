@@ -1,4 +1,4 @@
-import { toUnicode } from 'punycode.js';
+import punycode from 'punycode.js';
 
 import { safeHref } from './safe';
 
@@ -15,7 +15,7 @@ export function prettyLink(text: string, maxLength = Infinity): string {
 
   const m = /^([^/]+)([^]*)/.exec(pretty);
   if (m) {
-    pretty = toUnicode(m[1]) + m[2];
+    pretty = punycode.toUnicode(m[1]) + m[2];
   }
 
   if (maxLength === Infinity) {

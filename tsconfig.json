@@ -14,7 +14,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+
+    "paths": {
+      "punycode.js": ["./node_modules/@types/punycode"]
+    }
   },
   "include": ["./src/**/*"],
   "exclude": ["./src/legacy-tests", "./build"]

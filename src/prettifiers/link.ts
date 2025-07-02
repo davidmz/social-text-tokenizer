@@ -1,4 +1,4 @@
-import { toUnicode } from 'punycode';
+import { toUnicode } from 'punycode/';
 
 import { safeHref } from './safe';
 

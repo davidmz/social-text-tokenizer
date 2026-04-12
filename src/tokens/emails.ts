@@ -1,5 +1,5 @@
-import { EMAIL } from '../';
 import { withFilters, withWordBoundaries } from '../filters';
+import { EMAIL } from '../token-types';
 import { makeToken, reTokenizer } from '../utils';
 
 const defaultRe = /([a-zа-я0-9.&~!%_+-]+@(?:[a-zа-я0-9-]+\.)+[a-zа-я0-9-]+)/gi;

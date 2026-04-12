@@ -5,7 +5,7 @@ import { emails } from './emails';
 
 const tok = makeToken(EMAIL);
 
-tableTest('hashtags', emails(), [
+tableTest('emails', emails(), [
   [
     'aa@bb.ru bb@xn--80aaazglcmlcj.xn--p1ai',
     [tok(0, 'aa@bb.ru'), tok(9, 'bb@xn--80aaazglcmlcj.xn--p1ai')],

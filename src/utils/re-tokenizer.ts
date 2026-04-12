@@ -19,6 +19,10 @@ export function reTokenizer(
     regex.lastIndex = 0;
     let match: RegExpExecArray | null;
     while ((match = regex.exec(text)) !== null) {
+      if (match[0] === '') {
+        throw new Error('RegExp must not match empty strings!');
+      }
+
       const it = processMatch(match.index, match[0], match);
       if (it) {
         result.push(it);

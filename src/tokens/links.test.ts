@@ -14,7 +14,15 @@ tableTest('links', links(), [
   ['http://example.com/!!', [tok(0, 'http://example.com/')]],
   ['(http://example.com/)', [tok(1, 'http://example.com/')]],
   ['(http://example.com/(ab))!', [tok(1, 'http://example.com/(ab)')]],
+  ['example.com.', [tok(0, 'example.com')]],
+  ['example.com/path?x=1&y=2,', [tok(0, 'example.com/path?x=1&y=2')]],
+  ['(example.com)', [tok(1, 'example.com')]],
+  // A final punctuation-only tail is trimmed when the remaining URL is already balanced.
+  ['(example.com/path())', [tok(1, 'example.com/path')]],
+  ['(example.com/path()))', [tok(1, 'example.com/path')]],
   ['www.example.com', [tok(0, 'www.example.com')]],
+  // Domain-like matches are intentionally permissive and may start inside a word.
+  ['abcexample.com', [tok(0, 'abcexample.com')]],
   ['abcwww.example.com', [tok(0, 'abcwww.example.com')]],
   ['abcwww.example.com/', [tok(0, 'abcwww.example.com/')]],
   ['(www.example.com/(ab))!', [tok(1, 'www.example.com/(ab)')]],
@@ -22,6 +30,7 @@ tableTest('links', links(), [
   ['www.example.com/ab_!', [tok(0, 'www.example.com/ab_')]],
   // Double quotes
   ['example.com/ab_?q="hello"', [tok(0, 'example.com/ab_?q="hello"')]],
+  ['"example.com/ab?q="x""', [tok(1, 'example.com/ab?q="x"')]],
   ['"example.com/ab_?q="hello""', [tok(1, 'example.com/ab_?q="hello"')]],
   [
     'example.com/ab_?q="hello"+"word"',
@@ -32,6 +41,7 @@ tableTest('links', links(), [
   ['http://example.net', [tok(0, 'http://example.net')]],
   ['www.example.net', [tok(0, 'www.example.net')]],
   ['example.net', [tok(0, 'example.net')]],
+  ['abc.example.net', [tok(0, 'abc.example.net')]],
   ['moscow.info', []],
   ['www.moscow.info', [tok(0, 'www.moscow.info')]],
   ['microsoft.com…', [tok(0, 'microsoft.com')]],

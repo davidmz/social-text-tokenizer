@@ -38,7 +38,10 @@ function linksTokenizer(reString: string) {
   return withFilters(
     reTokenizer(new RegExp(reString, 'gi'), makeToken(LINK)),
     withCharsBefore(wordAdjacentChars.withoutChars('./')),
-    withBalancedTile,
+    // Greedily match a URL-like fragment first, then trim a punctuation tail.
+    // If the remaining head is already balanced, the whole tail is treated as
+    // outer punctuation even if it could theoretically belong to the URL.
+    withBalancedTail,
     // Token text should still satisfy regexp
     withRegexpSatisfied(new RegExp(`^${reString}$`, 'i')),
     withCharsAfter(wordAdjacentChars),
@@ -49,7 +52,7 @@ function withRegexpSatisfied(re: RegExp): TokenFilter {
   return (token) => (re.test(token.text) ? token : null);
 }
 
-function withBalancedTile(token: Token) {
+function withBalancedTail(token: Token) {
   // Final punctuation?
   const m = finalPunctsRe.exec(token.text);
   if (m === null) {

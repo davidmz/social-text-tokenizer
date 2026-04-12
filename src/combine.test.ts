@@ -100,6 +100,11 @@ const testData: { title: string; input: Token[][]; output: Token[] }[] = [
     ],
     output: [tok(2, '3456'), tok(7, '8')],
   },
+  {
+    title: 'same offset tokens are chosen by length regardless of input order',
+    input: [[tok(0, 'ab')], [tok(0, 'abcd')], [tok(0, 'abc')]],
+    output: [tok(0, 'abcd')],
+  },
 ];
 
 describe('combine', () => {

@@ -9,12 +9,14 @@ import tseslint from 'typescript-eslint';
 export default defineConfig([
   globalIgnores(['**/node_modules', '**/build']),
   {
+    name: 'social-text-tokenizer/js-recommended',
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
     plugins: { js },
     extends: ['js/recommended'],
   },
   tseslint.configs.recommended,
   {
+    name: 'social-text-tokenizer/custom-rules',
     plugins: {
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,

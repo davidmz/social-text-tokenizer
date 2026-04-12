@@ -18,6 +18,9 @@ export function withProperCharsAfter(token: Token, input: string) {
   // Allow textAfter to start with '-' with the following non-adjanced
   // characters. It is useful for russian @username-ных endings.
   if (textAfter.length >= 2 && textAfter.charAt(0) === '-') {
+    if (textAfter.charAt(1) === '-') {
+      return null;
+    }
     if (wordAdjacentChars.includesChar(textAfter.charAt(1))) {
       return null;
     }

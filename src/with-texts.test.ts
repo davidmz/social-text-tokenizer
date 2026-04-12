@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import type { Token } from './types';
 import { TEXT } from './token-types';
+import type { Token } from './types';
 import { makeToken } from './utils';
 import { withTexts } from './with-texts';
 

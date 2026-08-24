@@ -63,7 +63,7 @@ function withBalancedTail(token: Token) {
   let tail = m[0]; // Consists of punctuation characters
   const head = token.text.slice(0, -tail.length);
 
-  if (isBalanced(head) || !anyClosingBracketsRe.test(tail)) {
+  if (imbalance(head) === 0 || !anyClosingBracketsRe.test(tail)) {
     // No closing brackets in tail or head is balanced, so just cut the tail
     // off.
     return { ...token, text: head };
@@ -71,10 +71,20 @@ function withBalancedTail(token: Token) {
 
   // Trim non-brackets
   tail = tail.replace(finalNonBracketsRe, '');
-  // Add one by one character to head, until balance reached
+  // Keep the prefix that improves the balance most
+  let candidate = head;
   let text = head;
-  for (let i = 0; i < tail.length && !isBalanced(text); i++) {
-    text += tail[i];
+  let bestImbalance = imbalance(head);
+  for (const char of tail) {
+    candidate += char;
+    const nextImbalance = imbalance(candidate);
+    if (nextImbalance < bestImbalance) {
+      text = candidate;
+      bestImbalance = nextImbalance;
+    }
+    if (bestImbalance === 0) {
+      break;
+    }
   }
 
   return { ...token, text };
@@ -108,7 +118,7 @@ const finalNonBracketsRe = new RegExp(
   )}]+$`,
 );
 
-function isBalanced(text: string): boolean {
+function imbalance(text: string): number {
   const balances = {} as { [key: string]: number };
 
   for (const c of text.split('')) {
@@ -126,5 +136,5 @@ function isBalanced(text: string): boolean {
     }
   }
 
-  return !Object.values(balances).some((v) => v !== 0);
+  return Object.values(balances).reduce((sum, v) => sum + Math.abs(v), 0);
 }

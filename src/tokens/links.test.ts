@@ -17,6 +17,10 @@ tableTest('links', links(), [
   ['example.com.', [tok(0, 'example.com')]],
   ['example.com/path?x=1&y=2,', [tok(0, 'example.com/path?x=1&y=2')]],
   ['(example.com)', [tok(1, 'example.com')]],
+  [
+    "Марко д’Аграте (en.wikipedia.org/wiki/Marco_d'Agrate)",
+    [tok(16, "en.wikipedia.org/wiki/Marco_d'Agrate")],
+  ],
   // A final punctuation-only tail is trimmed when the remaining URL is already balanced.
   ['(example.com/path())', [tok(1, 'example.com/path')]],
   ['(example.com/path()))', [tok(1, 'example.com/path')]],
